@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+/Dataset
+/dataset_with_mask
+/image_test
+/masks
+/masks_test
+/segformer-gingiva-output
+/segformer-gingiva-final
+.kaggle
