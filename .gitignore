@@ -17,3 +17,10 @@ wheels/
 /segformer-gingiva-output
 /segformer-gingiva-final
 .kaggle
+.DS_Store
+utils/copy_test_data.py
+/prediction_results*
+/test_data*
+best_deeplabv3plus.pth
+.python-version
+

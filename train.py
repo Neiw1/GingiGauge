@@ -18,11 +18,9 @@ class GingivaDataset(Dataset):
         self.masks_dir = masks_dir
         self.image_processor = image_processor
         
-        # Make sure to only include valid images
         valid_extensions = ('.png', '.jpg', '.jpeg')
         self.images = [f for f in sorted(os.listdir(images_dir)) if f.lower().endswith(valid_extensions)]
         
-        # Assumes masks are named: original_image_name_without_ext + "_mask.png"
         self.masks = [os.path.splitext(img)[0] + "_mask.png" for img in self.images]
 
     def __len__(self):
@@ -53,14 +51,13 @@ class GingivaDataset(Dataset):
         return encoded_inputs
 
 
-# 2. Main Training Function (perfect for Kaggle)
+# 2. Main Training Function
 def main():
     # Adjust paths to where your dataset and masks folders are located
     # Ensure no nested folders inside dataset or masks directories
     DATASET_DIR = "image_test" 
     MASKS_DIR = "masks"
     
-    # We'll use the b0 model as it's the lightest. Can be scaled up to b1, b2, etc.
     PRETRAINED_MODEL = "nvidia/segformer-b2-finetuned-ade-512-512"
     
     print("Loading Image Processor...")
@@ -73,8 +70,7 @@ def main():
     if len(full_dataset) == 0:
         raise ValueError(f"No images found in {DATASET_DIR}. Please check the path.")
     
-    # Split Dataset into Train/Validation (80/20)
-# Split Dataset into Train/Validation/Test (70/15/15)
+    # Split Dataset into Train/Validation/Test (70/15/15)
     total_size = len(full_dataset)
     train_size = int(0.7 * total_size)
     val_size = int(0.15 * total_size)
@@ -92,7 +88,7 @@ def main():
     for name in test_image_names:
         print(name)
     print("-----------------------\n")
-    
+
     # Label mappings
     id2label = {0: "background", 1: "keratinized_gingiva"}
     label2id = {"background": 0, "keratinized_gingiva": 1}
@@ -144,8 +140,8 @@ def main():
         output_dir="./segformer-gingiva-output",
         use_cpu=True,
         learning_rate=6e-5,
-        num_train_epochs=50, # Change epochs depending on your dataset size
-        per_device_train_batch_size=4, # Adjust based on GPU VRAM (4-8 is good for T4)
+        num_train_epochs=50, 
+        per_device_train_batch_size=4, 
         per_device_eval_batch_size=4,
         save_total_limit=3,
         eval_strategy="epoch",
