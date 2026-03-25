@@ -21,6 +21,6 @@ wheels/
 utils/copy_test_data.py
 /prediction_results*
 /test_data*
-best_deeplabv3plus.pth
+*.pth
 .python-version
 
